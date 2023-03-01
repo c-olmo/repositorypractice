@@ -1,0 +1,174 @@
+---
+title: "NASA"
+output: html_document
+date: "2023-02-15"
+---
+
+```{r }
+
+library(tidyverse)
+library(dplyr)
+# 1 Use and show r code to import the Astronauts csv file.
+
+read_csv("Astronauts.csv")
+
+read_csv("Astronauts.csv")->NASA
+NASA
+
+
+# 2 Use and show r code to determine the number of Astronauts who are
+# in the data table and the number of descriptive column variables.
+
+nrow(NASA)
+ncol(NASA)
+
+# 3 Use and show r code to produce the number and the
+# names of only the female Astronauts.  
+
+
+NASA%>%
+  select(Name, Gender)%>%
+  filter(Gender == "Female")%>%
+  count(Gender)->NASA1
+NASA1
+
+
+# 4 Use and show R coding to produce a table that shows the
+# military rank and the military branch of each Female Astronaut.
+
+NASA%>%
+  select(Name, Gender, "Military Rank", "Military Branch")%>%
+  filter(Gender == "Female")
+  
+
+# 5 Some of the Astronauts in the data table are listed as Active 
+# and others are not. Use and show r code to determine how many 
+# Female Astronauts were currently active when this data set was
+# constructed.
+
+NASA%>%
+  select(Name, Gender, Status)%>%
+  fiter(Gender == "Female")%>%
+  filter(Status == "Active")->NASA2
+NASA2
+
+nrow(NASA2)
+
+# 6 Use and show ggplot coding to produce a bar graph that compares
+# space walks for Male and Female Astronauts.
+
+
+ggplot(data=NASA) +
+  geom_bar(mapping = aes("Space Walks")) + 
+  facet_wrap(~Gender)
+
+
+
+# 7 Use and show r code to produce the table below that lists all
+# Female Astronauts who have registered one or more Space Walks.
+# A tibble: 11 × 4
+
+
+tribble(~"Name",                           ~"Gender",   ~"Space Walks",      ~"n",
+                                  
+    " Heidemarie M. Stefanyshyn-Pip…",    "Female",    2,            1,
+     "Kathleen Rubins",                   "Female",    2,            1,
+     "Kathryn C. Thornton",               "Female",    3,            1,
+     "Kathryn D. Sullivan",               "Female",    1,            1,
+     "Linda M. Godwin",                   "Female",    2,            1,
+      "Nicole P. Stott",                  "Female",    1,            1,
+     "Peggy A. Whitson" ,                 "Female",    7,           1,
+     "Sunita L. Williams" ,               "Female",    7,           1, 
+     "Susan J. Helms",                    "Female",    1,           1,
+    "Tamara E. Jernigan",                 "Female",    1,           1,
+     "Tracy E. Caldwell (Dyson)",         "Female",    3,           1
+)->FemaleAstro
+FemaleAstro
+# … with abbreviated variable name ¹`Space Walks`
+
+# 8  Use and show ggplot coding to produce a box plot in order to 
+# investigate outliers and the overall distribution for Space
+# Walks for males and female astronauts combined. Does the boxplot 
+# indicate that there are outliers? Using the boxplot, estimate the
+# IQR for the data.
+
+
+ggplot(data=NASA) +
+  geom_boxplot(mapping = aes(x = "Space Walks"))
+
+
+# 9 Use and show ggplot coding to produce side by side box plots
+# in order to investigate outliers and the overall distributions
+# for Space Walks for males and female astronauts separately.  
+
+  
+ggplot(data = NASA)  +
+  geom_boxplot(mapping=aes(x="Space Walks")) +
+  facet_wrap(~Gender)
+
+
+
+# 10 The histogram displayed below shows that the Space Walks data
+# is generally skewed right for all Astronauts (males and females).
+# Use and show R code that will produce the histogram displayed.
+
+ggplot(data = NASA) +
+  geom_histogram(mapping = aes(x = "Space Walks"), bines = 10, fill = "red")
+
+
+# 11 Use and show R coding to calculate the average(mean) of
+# Space Walks for Male and Female Astronauts separately.
+
+NASA%>%
+group_by(Gender)%>%
+summarize(mean = mean("Space Walks"))
+
+
+# 12 Does a linear relationship exist between Space Flights and
+# Space Walks ? Investigate by using and showing ggplot coding to
+# produce a scatter plot.  Comment on your findings based on the
+# configuration of the scatter plot data points.
+
+ggplot(data= NASA) + 
+  geom_point(mapping= aes(x = "Space Flights", y = "Space Walks"))
+
+
+
+# 13 Mae C. Jemison was the first African American female Astronaut.
+# Use and show R code that will output her Undergraduate Major,
+# Graduate Major, and Alma Mater.
+
+NASA%>%
+  select(Name, "Undergraduate Major", "Graduate Major", "Alma Mater")
+  filter (Name == "Mae C. Jemson")
+
+
+
+# 14 Use and show R code to determine how many female
+# Astronauts were members of the US Air Force or retired
+# from the US Air Force at the time that the data set was
+# generated.
+
+
+NASA%>%
+  select(Name, Gender, Status, "Military Branch")%>%
+  filter("Military Branch" == " US Air Force")%>%
+  filter("Military Branch" == " US Air Force (Retired)"%>%
+  filter(Gender == "Female")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
